@@ -152,11 +152,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 408619624}
-  speedMov: 0
-  speedRot: 0
+  speedMov: 25
+  speedRot: 10
   targetAngle: 0
   currentAngle: 0
-  rb: {fileID: 0}
+  rb: {fileID: 285321477}
 --- !u!212 &285321475
 SpriteRenderer:
   m_ObjectHideFlags: 0

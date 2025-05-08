@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float targetAngle;
     public float currentAngle;
 
-    public Rigidbody rb;
+    public Rigidbody2D rb;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,7 +32,8 @@ public class PlayerController : MonoBehaviour
         mousePos.y = mousePos.y - objectPos.y;
 
         targetAngle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg - 90f - currentAngle;
-        currentAngle = currentAngle + (targetAngle) / 100f;
+        currentAngle = currentAngle + (targetAngle) / speedRot;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
+        rb.linearVelocity = new Vector2 (mousePos.x / speedMov, mousePos.y / speedMov);
     }
 }
