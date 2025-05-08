@@ -1,0 +1,56 @@
+using UnityEngine;
+
+public class GunBrain : MonoBehaviour
+{
+    [Header("Outside Objects")]
+    public GameManagement gameManager;
+    public Transform target;
+    public GameObject player;
+
+    [Header("Personal Control Variables")]
+    public float speedRot;
+    public float targetAngle;
+    public float currentAngle;
+
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Locating();
+        Targeting();
+        
+    }
+    
+    void Locating() {
+        Vector3 pos = this.transform.position;
+        float dist = float.PositiveInfinity;
+        Targetable targ = null;
+        foreach (var obj in Targetable.Entities) {
+            var d = (pos - obj.transform.position).sqrMagnitude;
+            if (d < dist) {
+                targ = obj;
+                dist = d;
+            }
+        }
+        target = targ.transform;
+    }
+
+    void Targeting() {
+        Vector3 targetPos = target.position;
+        targetPos.z = 5.23f;
+
+        Vector3 objectPos = player.transform.position;
+        targetPos.x = targetPos.x - objectPos.x;
+        targetPos.y = targetPos.y - objectPos.y;
+
+        targetAngle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg - 90f - currentAngle;
+        currentAngle = currentAngle + (targetAngle) / speedRot;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
+    }
+}

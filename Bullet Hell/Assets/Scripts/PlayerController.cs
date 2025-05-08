@@ -35,5 +35,7 @@ public class PlayerController : MonoBehaviour
         currentAngle = currentAngle + (targetAngle) / speedRot;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
         rb.linearVelocity = new Vector2 (mousePos.x / speedMov, mousePos.y / speedMov);
+        //rb.AddForce(new Vector2(mousePos.x / speedMov, mousePos.y / speedMov));
+        //was funny, but didn't work
     }
 }
