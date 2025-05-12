@@ -5,7 +5,7 @@ public class EnemyBrain : MonoBehaviour
 {
     [Header("Outside Objects")]
     public GameManagement gameManager;
-    public GameObject player;
+    public Transform target;
 
     [Header("Personal Control Variables")]
     public float speedRot;
@@ -25,6 +25,7 @@ public class EnemyBrain : MonoBehaviour
     void Update()
     {
         if (Random.Range(0, 1) == 0) {
+            Locating();
             Targeting();
             Shove();
         }
@@ -35,9 +36,28 @@ public class EnemyBrain : MonoBehaviour
     void Shove() {
         rb.AddForce(new Vector2 (targetPos.x / speedMov, targetPos.y / speedMov));
     }
+
+
+    void Locating()
+    {
+        Vector3 pos = this.transform.position;
+        float dist = float.PositiveInfinity;
+        TargetablePlayer targ = null;
+        foreach (var obj in TargetablePlayer.Entities)
+        {
+            var d = (pos - obj.transform.position).sqrMagnitude;
+            if (d < dist)
+            {
+                targ = obj;
+                dist = d;
+            }
+        }
+        target = targ.transform;
+    }
+
     void Targeting()
     {
-        targetPos = player.transform.position;
+        targetPos = target.position;
         targetPos.z = 5.23f;
 
         Vector3 objectPos = transform.position;

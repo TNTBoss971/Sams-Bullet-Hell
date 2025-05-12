@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GunBrain : MonoBehaviour
+public class EnemyGunBrain : MonoBehaviour
 {
     [Header("Outside Objects")]
     public GameManagement gameManager;
@@ -26,26 +26,30 @@ public class GunBrain : MonoBehaviour
     {
         Locating();
         Targeting();
-        if (Random.Range(0, 1000) == 0)
-        {
+        if (Random.Range(0, 1000) == 0) {
             Fire();
         }
 
     }
-    void Fire()
-    {
+
+
+    void Fire() {
         GameObject bullet = Instantiate(ammo);
         bullet.transform.position = this.transform.position;
         bullet.transform.rotation = this.transform.rotation;
         bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(targetPos.x, targetPos.y).normalized * bullet.GetComponent<ProjectileStats>().Speed);
     }
-    void Locating() {
+
+    void Locating()
+    {
         Vector3 pos = this.transform.position;
         float dist = float.PositiveInfinity;
-        Targetable targ = null;
-        foreach (var obj in Targetable.Entities) {
+        TargetablePlayer targ = null;
+        foreach (var obj in TargetablePlayer.Entities)
+        {
             var d = (pos - obj.transform.position).sqrMagnitude;
-            if (d < dist) {
+            if (d < dist)
+            {
                 targ = obj;
                 dist = d;
             }
@@ -53,16 +57,18 @@ public class GunBrain : MonoBehaviour
         target = targ.transform;
     }
 
-    void Targeting() {
+    void Targeting()
+    {
         targetPos = target.position;
         targetPos.z = 5.23f;
 
-        Vector3 objectPos = player.transform.position;
+        Vector3 objectPos = this.transform.position;
         targetPos.x = targetPos.x - objectPos.x;
         targetPos.y = targetPos.y - objectPos.y;
-
         targetAngle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg - 90f - currentAngle;
         currentAngle = currentAngle + (targetAngle) / speedRot;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
+        //transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
     }
+
+    
 }

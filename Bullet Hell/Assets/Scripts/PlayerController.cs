@@ -38,4 +38,12 @@ public class PlayerController : MonoBehaviour
         //rb.AddForce(new Vector2(mousePos.x / speedMov, mousePos.y / speedMov));
         //was funny, but didn't work
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("EnemyProjectile")) {
+            Destroy(collision.gameObject);
+        }
+    }
 }
