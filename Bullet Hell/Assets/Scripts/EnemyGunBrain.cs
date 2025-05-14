@@ -14,6 +14,11 @@ public class EnemyGunBrain : MonoBehaviour
     public GameObject ammo;
     private Vector3 targetPos;
 
+    public float range;
+    public bool canFire;
+    public float fireRate;
+    private float fireTime = 0.0f;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,7 +31,10 @@ public class EnemyGunBrain : MonoBehaviour
     {
         Locating();
         Targeting();
-        if (Random.Range(0, 1000) == 0) {
+        if (Time.time > fireTime && canFire)
+        {
+            fireTime = Time.time + fireRate;
+            // execute block of code here
             Fire();
         }
 
@@ -65,6 +73,13 @@ public class EnemyGunBrain : MonoBehaviour
         Vector3 objectPos = this.transform.position;
         targetPos.x = targetPos.x - objectPos.x;
         targetPos.y = targetPos.y - objectPos.y;
+
+        if (targetPos.sqrMagnitude <= range * range) { 
+            canFire = true;
+        } else { 
+            canFire = false;
+        }
+
         targetAngle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg - 90f - currentAngle;
         currentAngle = currentAngle + (targetAngle) / speedRot;
         //transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));

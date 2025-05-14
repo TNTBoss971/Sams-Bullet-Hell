@@ -3,6 +3,7 @@ using UnityEngine;
 public class ProjectileStats : MonoBehaviour
 {
     public float Speed;
+    public float Damage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

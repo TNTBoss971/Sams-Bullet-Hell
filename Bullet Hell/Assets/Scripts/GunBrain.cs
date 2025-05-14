@@ -14,6 +14,11 @@ public class GunBrain : MonoBehaviour
     public GameObject ammo;
     private Vector3 targetPos;
 
+    public float range;
+    public bool canFire;
+    public float fireRate;
+    private float fireTime = 0.0f;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,18 +31,22 @@ public class GunBrain : MonoBehaviour
     {
         Locating();
         Targeting();
-        if (Random.Range(0, 1000) == 0)
+        if (Time.time > fireTime && canFire)
         {
+            fireTime = Time.time + fireRate;
+            // execute block of code here
             Fire();
         }
 
     }
     void Fire()
     {
-        GameObject bullet = Instantiate(ammo);
-        bullet.transform.position = this.transform.position;
-        bullet.transform.rotation = this.transform.rotation;
-        bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(targetPos.x, targetPos.y).normalized * bullet.GetComponent<ProjectileStats>().Speed);
+        if (target != null) {
+            GameObject bullet = Instantiate(ammo);
+            bullet.transform.position = this.transform.position;
+            bullet.transform.rotation = this.transform.rotation;
+            bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(targetPos.x, targetPos.y).normalized * bullet.GetComponent<ProjectileStats>().Speed);
+        }
     }
     void Locating() {
         Vector3 pos = this.transform.position;
@@ -50,19 +59,32 @@ public class GunBrain : MonoBehaviour
                 dist = d;
             }
         }
-        target = targ.transform;
+        if (targ != null) {
+            target = targ.transform;
+        }
     }
 
     void Targeting() {
-        targetPos = target.position;
-        targetPos.z = 5.23f;
+        if (target != null) {
+            targetPos = target.position;
+            targetPos.z = 5.23f;
 
-        Vector3 objectPos = player.transform.position;
-        targetPos.x = targetPos.x - objectPos.x;
-        targetPos.y = targetPos.y - objectPos.y;
+            Vector3 objectPos = player.transform.position;
+            targetPos.x = targetPos.x - objectPos.x;
+            targetPos.y = targetPos.y - objectPos.y;
 
-        targetAngle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg - 90f - currentAngle;
-        currentAngle = currentAngle + (targetAngle) / speedRot;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
+            if (targetPos.sqrMagnitude <= range * range)
+            {
+                canFire = true;
+            }
+            else
+            {
+                canFire = false;
+            }
+
+            targetAngle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg - 90f - currentAngle;
+            currentAngle = currentAngle + (targetAngle) / speedRot;
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
+        }
     }
 }

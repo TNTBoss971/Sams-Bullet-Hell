@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3076350538872325382}
   - component: {fileID: 3229438135892722016}
   - component: {fileID: 1687000568618509954}
+  - component: {fileID: 2197270445583026206}
   m_Layer: 0
   m_Name: PlayerBullet
   m_TagString: PlayerProjectile
@@ -167,3 +168,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 500
+  Damage: 1
+--- !u!114 &2197270445583026206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2264622351269077408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 063670e997fb0144c83298a592202881, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

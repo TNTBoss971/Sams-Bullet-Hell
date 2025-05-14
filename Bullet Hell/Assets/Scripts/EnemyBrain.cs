@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 using static UnityEngine.GraphicsBuffer;
 
 public class EnemyBrain : MonoBehaviour
@@ -8,6 +9,8 @@ public class EnemyBrain : MonoBehaviour
     public Transform target;
 
     [Header("Personal Control Variables")]
+    public bool isRanged;
+    public float hp;
     public float speedRot;
     public float speedMov;
     public float targetAngle;
@@ -34,7 +37,17 @@ public class EnemyBrain : MonoBehaviour
 
 
     void Shove() {
-        rb.AddForce(new Vector2 (targetPos.x / speedMov, targetPos.y / speedMov));
+        float distanceToTarget = (this.transform.position - target.transform.position).magnitude;
+        if (isRanged)
+        {
+            rb.AddForce(targetPos.normalized * speedMov * distanceToTarget / 10);
+        } else
+        {
+            rb.linearVelocity = targetPos.normalized * speedMov;
+        }
+        //rb.AddForce(targetPos.normalized * speedMov / distanceToTarget);
+        // maybe for an orbiter?
+
     }
 
 
@@ -67,5 +80,19 @@ public class EnemyBrain : MonoBehaviour
         targetAngle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg - 90f - currentAngle;
         currentAngle = currentAngle + (targetAngle) / speedRot;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PlayerProjectile")) {
+            rb.AddForce(collision.GetComponent<Rigidbody2D>().linearVelocity * 10);
+            hp -= collision.GetComponent<ProjectileStats>().Damage;
+            if (hp <= 0) {
+                //Destroy(this); gives a really cool "corpse" effect, but does some wierd stuff when the enemy has a gun
+                Destroy(this.gameObject);
+            }
+            Destroy(collision.gameObject);
+            
+        }
     }
 }
