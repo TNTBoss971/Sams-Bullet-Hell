@@ -86,6 +86,10 @@ public class EnemyBrain : MonoBehaviour
     {
         if (collision.CompareTag("PlayerProjectile")) {
             rb.AddForce(collision.GetComponent<Rigidbody2D>().linearVelocity * 10);
+            transform.position = new Vector3(
+                transform.position.x + (collision.GetComponent<Rigidbody2D>().linearVelocity.normalized * collision.GetComponent<ProjectileStats>().Knockback).x,
+                transform.position.y + (collision.GetComponent<Rigidbody2D>().linearVelocity.normalized * collision.GetComponent<ProjectileStats>().Knockback).y,
+                transform.position.x);
             hp -= collision.GetComponent<ProjectileStats>().Damage;
             if (hp <= 0) {
                 //Destroy(this); gives a really cool "corpse" effect, but does some wierd stuff when the enemy has a gun

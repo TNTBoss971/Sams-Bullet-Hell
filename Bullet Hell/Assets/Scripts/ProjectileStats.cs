@@ -4,6 +4,7 @@ public class ProjectileStats : MonoBehaviour
 {
     public float Speed;
     public float Damage;
+    public float Knockback;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

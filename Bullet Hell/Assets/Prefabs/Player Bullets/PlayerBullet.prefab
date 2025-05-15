@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3229438135892722016}
   - component: {fileID: 1687000568618509954}
   - component: {fileID: 2197270445583026206}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlayerBullet
   m_TagString: PlayerProjectile
   m_Icon: {fileID: 0}
@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 500
   Damage: 1
+  Knockback: 0
 --- !u!114 &2197270445583026206
 MonoBehaviour:
   m_ObjectHideFlags: 0
