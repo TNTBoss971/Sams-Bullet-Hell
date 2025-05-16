@@ -44,7 +44,14 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag("EnemyProjectile")) {
+            gameManager.playerHp -= collision.GetComponent<ProjectileStats>().Damage;
             Destroy(collision.gameObject);
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && collision.gameObject.GetComponent<EnemyBrain>().damagesOnContact) {
+            gameManager.playerHp -= collision.gameObject.GetComponent<EnemyBrain>().damage;
         }
     }
 }

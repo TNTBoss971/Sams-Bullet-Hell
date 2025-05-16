@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManagement : MonoBehaviour
 {
@@ -9,6 +10,12 @@ public class GameManagement : MonoBehaviour
     [Header("Wave Management")]
     public float difficulty = 1;
     public int wave = 0;
+    public GameObject[] enemyPool;
+    public float spawnRate;
+    private float spawnTime = 0.0f;
+
+    [Header("Player Management")]
+    public float playerHp;
 
     [Header("Outside Objects")]
     //DOWNTIME
@@ -19,20 +26,34 @@ public class GameManagement : MonoBehaviour
     public GameObject walls;
     public GameObject enemies;
 
-    private GameObject playerHpMeter;
+    public MeterLogic playerHpMeter;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //playerHpMeter = waveCanvas.GetComponentInChildren
+        //playerHpMeter = waveCanvas.GetComponentsInChildren<MeterLogic>()[0];
         StartWave();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (gameState == "wave")
+        {
+            playerHpMeter.current = playerHp;
+            if (playerHp <= 0) {
+                SceneManager.LoadScene("Game");
+            }
 
+            if (Time.time > spawnTime)
+            {
+                spawnTime = Time.time + spawnRate;
+                // execute block of code here
+                GameObject newEnemy = Instantiate(enemyPool[Random.Range(0, enemyPool.Length)]);
+            }
+
+        }
     }
 
 
@@ -48,6 +69,7 @@ public class GameManagement : MonoBehaviour
         waveCanvas.SetActive(true);
         downtimeCanvas.SetActive(false);
 
+        playerHpMeter.max = playerHp;
         player.SetActive(true);
         walls.SetActive(true);
         enemies.SetActive(true);

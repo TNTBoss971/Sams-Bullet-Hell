@@ -10,6 +10,8 @@ public class EnemyBrain : MonoBehaviour
 
     [Header("Personal Control Variables")]
     public bool isRanged;
+    public bool damagesOnContact;
+    public float damage;
     public float hp;
     public float speedRot;
     public float speedMov;
