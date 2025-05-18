@@ -43,7 +43,7 @@ public class GameManagement : MonoBehaviour
         {
             playerHpMeter.current = playerHp;
             if (playerHp <= 0) {
-                SceneManager.LoadScene("Game");
+                SceneManager.LoadScene("Main Menu");
             }
 
             if (Time.time > spawnTime)
