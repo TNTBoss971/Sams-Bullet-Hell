@@ -96,6 +96,7 @@ public class EnemyBrain : MonoBehaviour
             if (hp <= 0) {
                 //Destroy(this); gives a really cool "corpse" effect, but does some wierd stuff when the enemy has a gun
                 Destroy(this.gameObject);
+                gameManager.enemiesLeft--;
             }
             Destroy(collision.gameObject);
             

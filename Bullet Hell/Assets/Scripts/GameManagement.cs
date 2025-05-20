@@ -9,10 +9,16 @@ public class GameManagement : MonoBehaviour
 
     [Header("Wave Management")]
     public float difficulty = 1;
+    public int enemiesLeft;
     public int wave = 0;
     public GameObject[] enemyPool;
-    public float spawnRate;
-    private float spawnTime = 0.0f;
+    public WaveData[] waveQueue;
+    public int[] enemyCount;
+
+    [Header("Downtime Management")]
+    public string tab = "player";
+    public GameObject playerTab;
+    public GameObject machinesTab;
 
     [Header("Player Management")]
     public float playerHp;
@@ -33,7 +39,8 @@ public class GameManagement : MonoBehaviour
     void Start()
     {
         //playerHpMeter = waveCanvas.GetComponentsInChildren<MeterLogic>()[0];
-        StartWave();
+        //StartWave();
+        StartDowntime();
     }
 
     // Update is called once per frame
@@ -46,13 +53,10 @@ public class GameManagement : MonoBehaviour
                 SceneManager.LoadScene("Main Menu");
             }
 
-            if (Time.time > spawnTime)
+            if (enemiesLeft == 0)
             {
-                spawnTime = Time.time + spawnRate;
-                // execute block of code here
-                GameObject newEnemy = Instantiate(enemyPool[Random.Range(0, enemyPool.Length)]);
+                StartDowntime();
             }
-
         }
     }
 
@@ -74,6 +78,16 @@ public class GameManagement : MonoBehaviour
         walls.SetActive(true);
         enemies.SetActive(true);
 
+        //spawn enemies
+        enemyPool = waveQueue[wave - 1].enemyPool;
+        int[] enemyCount = waveQueue[wave - 1].enemyCount;
+        for (int i = 0; i < enemyPool.Length; i++)
+        {
+            for (int j = 0; j < enemyCount[i]; j++)
+            {
+                NewEnemy(enemyPool[i]);
+            }
+        }
     }
 
     public void StartDowntime()
@@ -85,8 +99,47 @@ public class GameManagement : MonoBehaviour
         player.SetActive(false);
         walls.SetActive(false);
         enemies.SetActive(false);
+
+        playerTab.SetActive(true);
+        machinesTab.SetActive(false);
     }
     
+    public void NewEnemy(GameObject enemyObject)
+    {
+        GameObject newEnemy = Instantiate(enemyObject);
+        newEnemy.transform.SetParent(enemies.transform);
+        int positionInt = Random.Range(0, 4);
+        if (positionInt == 0) {
+            newEnemy.transform.position = new Vector3(9.20f, 5.30f, 0.5f);
+        } else if (positionInt == 1) {
+            newEnemy.transform.position = new Vector3(-9.20f, 5.30f, 0.5f);
+        } else if (positionInt == 2) {
+            newEnemy.transform.position = new Vector3(9.20f, -5.30f, 0.5f);
+        } else if (positionInt == 3) {
+            newEnemy.transform.position = new Vector3(-9.20f, -5.30f, 0.5f);
+        }
+        newEnemy.GetComponent<EnemyBrain>().gameManager = this;
+        enemiesLeft++;
+    }
 
+    public void PlayerMenuClicked()
+    {
+        if (tab != "player")
+        {
+            tab = "player";
+            playerTab.SetActive(true);
+            machinesTab.SetActive(false);
 
+        }
+    }
+
+    public void MachinesMenuClicked()
+    {
+        if (tab != "machines")
+        {
+            tab = "machines";
+            playerTab.SetActive(false);
+            machinesTab.SetActive(true);
+        }
+    }
 }
