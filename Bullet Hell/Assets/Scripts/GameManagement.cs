@@ -1,6 +1,9 @@
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class GameManagement : MonoBehaviour
 {
@@ -19,9 +22,15 @@ public class GameManagement : MonoBehaviour
     public string tab = "player";
     public GameObject playerTab;
     public GameObject machinesTab;
+    public GameObject weaponStorage;
+    public GameObject selectedStorageWeapon;
 
     [Header("Player Management")]
     public float playerHp;
+    public GameObject[] weaponsEquipped;
+    public GameObject[] weaponsSlots;
+    public List<GameObject> weaponsStored;
+
 
     [Header("Outside Objects")]
     //DOWNTIME
@@ -140,6 +149,38 @@ public class GameManagement : MonoBehaviour
             tab = "machines";
             playerTab.SetActive(false);
             machinesTab.SetActive(true);
+        }
+    }
+    public void EquipWeaponFirst(GameObject obInQ)
+    {
+        selectedStorageWeapon = obInQ;
+    }
+
+    public void EquipWeaponSecond(int slot)
+    {
+        if (selectedStorageWeapon != null)
+        {
+            weaponsEquipped[slot] = selectedStorageWeapon;
+
+            selectedStorageWeapon.transform.SetParent(weaponsSlots[slot].transform);
+            selectedStorageWeapon.GetComponent<Button>().enabled = false;
+            weaponsStored.Remove(selectedStorageWeapon);
+            selectedStorageWeapon.transform.position = weaponsSlots[slot].transform.position;
+            selectedStorageWeapon = null;
+        }
+    }
+    public void UnequipWeapon(int slot)
+    {
+        // InQ stands for In Question, so this means Object In Question
+        if (weaponsEquipped[slot])
+        {
+
+            GameObject obInQ = weaponsEquipped[slot];
+            Destroy(obInQ.GetComponent<DisplayGunData>().linkedObject);
+            obInQ.transform.SetParent(weaponStorage.transform);
+            weaponsStored.Add(obInQ);
+            obInQ.GetComponent<Button>().enabled = true;
+            weaponsEquipped[slot] = null;
         }
     }
 }
