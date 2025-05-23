@@ -22,13 +22,18 @@ public class GameManagement : MonoBehaviour
     public string tab = "player";
     public GameObject playerTab;
     public GameObject machinesTab;
+    public GameObject missionTab;
     public GameObject weaponStorage;
     public GameObject selectedStorageWeapon;
 
     [Header("Player Management")]
     public float playerHp;
+    public float silica;
+    public float copper;
+
     public GameObject[] weaponsEquipped;
     public GameObject[] weaponsSlots;
+    public GameObject[] weaponsSlotsWave;
     public List<GameObject> weaponsStored;
 
 
@@ -48,8 +53,8 @@ public class GameManagement : MonoBehaviour
     void Start()
     {
         //playerHpMeter = waveCanvas.GetComponentsInChildren<MeterLogic>()[0];
-        //StartWave();
-        StartDowntime();
+        StartWave();
+        //StartDowntime();
     }
 
     // Update is called once per frame
@@ -61,8 +66,8 @@ public class GameManagement : MonoBehaviour
             if (playerHp <= 0) {
                 SceneManager.LoadScene("Main Menu");
             }
-
-            if (enemiesLeft == 0)
+            if (enemies.transform.childCount == 0)
+            //if (enemiesLeft <= 0)
             {
                 StartDowntime();
             }
@@ -111,6 +116,7 @@ public class GameManagement : MonoBehaviour
 
         playerTab.SetActive(true);
         machinesTab.SetActive(false);
+        missionTab.SetActive(false);
     }
     
     public void NewEnemy(GameObject enemyObject)
@@ -138,6 +144,7 @@ public class GameManagement : MonoBehaviour
             tab = "player";
             playerTab.SetActive(true);
             machinesTab.SetActive(false);
+            missionTab.SetActive(false);
 
         }
     }
@@ -149,7 +156,20 @@ public class GameManagement : MonoBehaviour
             tab = "machines";
             playerTab.SetActive(false);
             machinesTab.SetActive(true);
+            missionTab.SetActive(false);
         }
+    }
+
+    public void MissionMenuClicked()
+    {
+        if (tab != "mission")
+        {
+            tab = "mission";
+            playerTab.SetActive(false);
+            machinesTab.SetActive(false);
+            missionTab.SetActive(true);
+        }
+
     }
     public void EquipWeaponFirst(GameObject obInQ)
     {
@@ -166,7 +186,11 @@ public class GameManagement : MonoBehaviour
             selectedStorageWeapon.GetComponent<Button>().enabled = false;
             weaponsStored.Remove(selectedStorageWeapon);
             selectedStorageWeapon.transform.position = weaponsSlots[slot].transform.position;
+            GameObject newGun = Instantiate(selectedStorageWeapon.GetComponent<DisplayGunData>().linkedPrefab);
+            newGun.transform.SetParent(weaponsSlotsWave[slot].transform);
+            selectedStorageWeapon.GetComponent<DisplayGunData>().linkedObject = newGun;
             selectedStorageWeapon = null;
+
         }
     }
     public void UnequipWeapon(int slot)
