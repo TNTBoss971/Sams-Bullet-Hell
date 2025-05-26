@@ -8,18 +8,23 @@ public class EnemyBrain : MonoBehaviour
     public GameManagement gameManager;
     public Transform target;
 
-    [Header("Personal Control Variables")]
+    [Header("Enemey Config")]
     public bool isRanged;
     public bool damagesOnContact;
     public float damage;
     public float hp;
+    public float silicaValue;
+    public float copperValue;
+    
+    [Header("Personal Control Variables")]
     public float speedRot;
     public float speedMov;
     public float targetAngle;
     public Vector3 targetPos;
     public float currentAngle;
-
     public Rigidbody2D rb;
+
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -93,8 +98,19 @@ public class EnemyBrain : MonoBehaviour
                 transform.position.y + (collision.GetComponent<Rigidbody2D>().linearVelocity.normalized * collision.GetComponent<ProjectileStats>().Knockback).y,
                 transform.position.x);
             hp -= collision.GetComponent<ProjectileStats>().Damage;
-            if (hp <= 0) {
+            //kill the enemy
+            if (hp <= 0)
+            {
+                //calculate silica gain
+                gameManager.silicaSalvaged += silicaValue + Random.Range(-0.75f, 0.75f);
+
+                
+                //calculate copper gain
+                gameManager.copperSalvaged += copperValue + Random.Range(-0.02f, 0.02f);
+
+
                 //Destroy(this); gives a really cool "corpse" effect, but does some wierd stuff when the enemy has a gun
+                //definatlly gonna use later. Possible solution is to find all children marked "attachment" and disable them;
                 Destroy(this.gameObject);
                 gameManager.enemiesLeft--;
             }

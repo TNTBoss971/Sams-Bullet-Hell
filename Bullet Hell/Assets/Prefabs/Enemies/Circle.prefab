@@ -328,6 +328,8 @@ MonoBehaviour:
   damagesOnContact: 0
   damage: 0
   hp: 5
+  silicaValue: 1.5
+  copperValue: 0.1
   speedRot: 5
   speedMov: 2
   targetAngle: 0

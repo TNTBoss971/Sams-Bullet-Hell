@@ -3,9 +3,9 @@ using UnityEngine;
 public class GunBrain : MonoBehaviour
 {
     [Header("Outside Objects")]
-    public GameManagement gameManager;
+    private GameManagement gameManager;
     public Transform target;
-    public GameObject player;
+    private GameObject player;
 
     [Header("Personal Control Variables")]
     public float speedRot;
@@ -21,9 +21,11 @@ public class GunBrain : MonoBehaviour
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [System.Obsolete]
     void Start()
     {
-
+        gameManager = FindObjectsOfType<GameManagement>()[0];
+        player = FindObjectsOfType<PlayerController>()[0].gameObject;
     }
 
     // Update is called once per frame

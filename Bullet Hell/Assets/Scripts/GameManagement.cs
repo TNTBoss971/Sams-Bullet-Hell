@@ -17,6 +17,8 @@ public class GameManagement : MonoBehaviour
     public GameObject[] enemyPool;
     public WaveData[] waveQueue;
     public int[] enemyCount;
+    public float silicaSalvaged;
+    public float copperSalvaged;
 
     [Header("Downtime Management")]
     public string tab = "player";
@@ -25,6 +27,8 @@ public class GameManagement : MonoBehaviour
     public GameObject missionTab;
     public GameObject weaponStorage;
     public GameObject selectedStorageWeapon;
+
+    [Header("Summary Management")]
 
     [Header("Player Management")]
     public float playerHp;
@@ -45,16 +49,25 @@ public class GameManagement : MonoBehaviour
     public GameObject player;
     public GameObject walls;
     public GameObject enemies;
-
     public MeterLogic playerHpMeter;
+    //SUMMARY
+    public GameObject summaryCanvas;
 
+    [Header("Debug")]
+    public string startingState;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //playerHpMeter = waveCanvas.GetComponentsInChildren<MeterLogic>()[0];
-        StartWave();
-        //StartDowntime();
+        if (startingState == "wave")
+        {
+            StartWave();
+        }
+        else if (startingState == "downtime")
+        {
+            StartDowntime();
+        }
     }
 
     // Update is called once per frame
@@ -63,13 +76,13 @@ public class GameManagement : MonoBehaviour
         if (gameState == "wave")
         {
             playerHpMeter.current = playerHp;
-            if (playerHp <= 0) {
+            if (playerHp <= 0)
+            {
                 SceneManager.LoadScene("Main Menu");
             }
             if (enemies.transform.childCount == 0)
-            //if (enemiesLeft <= 0)
             {
-                StartDowntime();
+                StartSummary();
             }
         }
     }
@@ -79,13 +92,32 @@ public class GameManagement : MonoBehaviour
     {
 
     }
+    public void StartSummary()
+    {
+        gameState = "summary";
+        waveCanvas.SetActive(false);
+        downtimeCanvas.SetActive(false);
+        summaryCanvas.SetActive(true);
 
+        player.SetActive(false);
+        walls.SetActive(false);
+        enemies.SetActive(false);
+
+
+        silica += silicaSalvaged;
+        copper += copperSalvaged;
+
+        silicaSalvaged = 0;
+        copperSalvaged = 0;
+        StartDowntime();
+    }
     public void StartWave()
     {
         gameState = "wave";
         wave++;
         waveCanvas.SetActive(true);
         downtimeCanvas.SetActive(false);
+        summaryCanvas.SetActive(false);
 
         playerHpMeter.max = playerHp;
         player.SetActive(true);
@@ -109,6 +141,7 @@ public class GameManagement : MonoBehaviour
         gameState = "downtime";
         waveCanvas.SetActive(false);
         downtimeCanvas.SetActive(true);
+        summaryCanvas.SetActive(false);
 
         player.SetActive(false);
         walls.SetActive(false);
@@ -124,13 +157,20 @@ public class GameManagement : MonoBehaviour
         GameObject newEnemy = Instantiate(enemyObject);
         newEnemy.transform.SetParent(enemies.transform);
         int positionInt = Random.Range(0, 4);
-        if (positionInt == 0) {
+        if (positionInt == 0)
+        {
             newEnemy.transform.position = new Vector3(9.20f, 5.30f, 0.5f);
-        } else if (positionInt == 1) {
+        }
+        else if (positionInt == 1)
+        {
             newEnemy.transform.position = new Vector3(-9.20f, 5.30f, 0.5f);
-        } else if (positionInt == 2) {
+        }
+        else if (positionInt == 2)
+        {
             newEnemy.transform.position = new Vector3(9.20f, -5.30f, 0.5f);
-        } else if (positionInt == 3) {
+        }
+        else if (positionInt == 3)
+        {
             newEnemy.transform.position = new Vector3(-9.20f, -5.30f, 0.5f);
         }
         newEnemy.GetComponent<EnemyBrain>().gameManager = this;
@@ -188,6 +228,7 @@ public class GameManagement : MonoBehaviour
             selectedStorageWeapon.transform.position = weaponsSlots[slot].transform.position;
             GameObject newGun = Instantiate(selectedStorageWeapon.GetComponent<DisplayGunData>().linkedPrefab);
             newGun.transform.SetParent(weaponsSlotsWave[slot].transform);
+            newGun.transform.position = newGun.transform.parent.transform.position;
             selectedStorageWeapon.GetComponent<DisplayGunData>().linkedObject = newGun;
             selectedStorageWeapon = null;
 

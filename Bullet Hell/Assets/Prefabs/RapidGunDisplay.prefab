@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 4292337439566817381}
   - component: {fileID: 6459374985022212804}
   - component: {fileID: 1759952868628639555}
+  - component: {fileID: 1689537442724075547}
   m_Layer: 0
   m_Name: RapidGunDisplay
   m_TagString: Attachment
@@ -204,7 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedObject: {fileID: 0}
-  linkedPrefab: {fileID: 3624449620766332464, guid: 3732952ee93ccd0419ae958d55d1aeff, type: 3}
+  linkedPrefab: {fileID: 3624449620766332464, guid: d532545d23079b64282ba363a45f6380, type: 3}
   identifier: 0
 --- !u!222 &4292337439566817381
 CanvasRenderer:
@@ -251,7 +252,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7467126228305403102}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -288,15 +289,27 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1689537442724075547}
+        m_TargetAssemblyTypeName: weaponSwap, Assembly-CSharp
+        m_MethodName: Clicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1689537442724075547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7467126228305403102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f76994c06f314c47b8c7efa900f7001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
