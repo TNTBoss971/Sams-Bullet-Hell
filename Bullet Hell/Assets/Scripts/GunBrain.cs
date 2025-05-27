@@ -14,18 +14,26 @@ public class GunBrain : MonoBehaviour
     public GameObject ammo;
     private Vector3 targetPos;
 
+    public bool canChangeTarget;
     public float range;
     public bool canFire;
     public float fireRate;
     private float fireTime = 0.0f;
+
+    [Header("Special Characteristics")]
+    public int shots;
+    public bool isMinigun;
+    public bool isMaxigun;
+    public bool isLaser;
+    public bool isShotgun;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [System.Obsolete]
     void Start()
     {
-        gameManager = FindObjectsOfType<GameManagement>()[0];
-        player = FindObjectsOfType<PlayerController>()[0].gameObject;
+        gameManager = FindObjectsByType<GameManagement>(FindObjectsSortMode.None)[0];
+        player = FindObjectsByType<PlayerController>(FindObjectsSortMode.None)[0].gameObject;
     }
 
     // Update is called once per frame
@@ -36,8 +44,17 @@ public class GunBrain : MonoBehaviour
         if (Time.time > fireTime && canFire)
         {
             fireTime = Time.time + fireRate;
-            // execute block of code here
+            // gun go THONK
             Fire();
+            if (isMinigun)
+            {
+                canChangeTarget = false;
+                for (int i = 0; i < shots - 1; i++)
+                {
+                    Invoke(nameof(Fire), i / 5f);
+                }
+                Invoke(nameof(AllowForTargeting), shots / 5f);
+            }
         }
 
     }
@@ -47,7 +64,10 @@ public class GunBrain : MonoBehaviour
             GameObject bullet = Instantiate(ammo);
             bullet.transform.position = this.transform.position;
             bullet.transform.rotation = this.transform.rotation;
-            bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(targetPos.x, targetPos.y).normalized * bullet.GetComponent<ProjectileStats>().Speed);
+            if (!isLaser)
+            {
+                bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(targetPos.x, targetPos.y).normalized * bullet.GetComponent<ProjectileStats>().Speed);
+            }
         }
     }
     void Locating() {
@@ -61,7 +81,7 @@ public class GunBrain : MonoBehaviour
                 dist = d;
             }
         }
-        if (targ != null) {
+        if (targ != null && canChangeTarget) {
             target = targ.transform;
         }
     }
@@ -88,5 +108,9 @@ public class GunBrain : MonoBehaviour
             currentAngle = currentAngle + (targetAngle) / speedRot;
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
         }
+    }
+    void AllowForTargeting()
+    {
+        canChangeTarget = true;
     }
 }

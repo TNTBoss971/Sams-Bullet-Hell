@@ -147,6 +147,8 @@ public class GameManagement : MonoBehaviour
         walls.SetActive(false);
         enemies.SetActive(false);
 
+        tab = "player";
+
         playerTab.SetActive(true);
         machinesTab.SetActive(false);
         missionTab.SetActive(false);

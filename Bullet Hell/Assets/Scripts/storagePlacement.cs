@@ -22,7 +22,7 @@ public class storagePlacement : MonoBehaviour
         {
             storedObjs[i].GetComponent<RectTransform>().localPosition = new Vector3(col * 100, row * -100);
             col++;
-            if (col == 2)
+            if (col == 5)
             {
                 col = 0;
                 row++;

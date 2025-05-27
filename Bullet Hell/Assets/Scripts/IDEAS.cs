@@ -6,4 +6,7 @@ public class IDEAS : MonoBehaviour
 
     // copper: constant value
     // silca: scales
+
+    // make a maxigun. Like a minigun, but max.
+    // laser minigun?
 }
