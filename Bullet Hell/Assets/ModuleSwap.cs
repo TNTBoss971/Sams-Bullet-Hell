@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class weaponSwap : MonoBehaviour
+public class ModuleSwap : MonoBehaviour
 {
     private GameManagement gameManager;
 
@@ -18,6 +18,6 @@ public class weaponSwap : MonoBehaviour
     }
     public void Clicked()
     {
-        gameManager.EquipWeaponFirst(this.gameObject);
+        gameManager.EquipModuleFirst(this.gameObject);
     }
 }

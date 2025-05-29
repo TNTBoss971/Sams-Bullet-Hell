@@ -133,16 +133,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 354c6d12501165849bce38a040c7481a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
   target: {fileID: 0}
-  player: {fileID: 0}
   speedRot: 10
   targetAngle: 0
   currentAngle: 0
   ammo: {fileID: 2264622351269077408, guid: f84d7c357caa78940b5abda531339675, type: 3}
+  canChangeTarget: 1
   range: 10
   canFire: 0
   fireRate: 1
+  shots: 0
+  isMinigun: 0
+  isMaxigun: 0
+  isLaser: 0
+  isShotgun: 0
 --- !u!1 &3719862279572289116
 GameObject:
   m_ObjectHideFlags: 0

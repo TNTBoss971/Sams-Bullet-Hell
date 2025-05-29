@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 3498609565637894879}
   - component: {fileID: 6356641622139206848}
   m_Layer: 0
-  m_Name: RapidGun
+  m_Name: BurstGun
   m_TagString: Attachment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

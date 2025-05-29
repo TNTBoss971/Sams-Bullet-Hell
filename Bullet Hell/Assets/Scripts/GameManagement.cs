@@ -26,7 +26,9 @@ public class GameManagement : MonoBehaviour
     public GameObject machinesTab;
     public GameObject missionTab;
     public GameObject weaponStorage;
-    public GameObject selectedStorageWeapon;
+    public GameObject moduleStorage;
+    public GameObject selectedStorageObject;
+    public string selectedStorageObjectType;
 
     [Header("Summary Management")]
 
@@ -39,6 +41,10 @@ public class GameManagement : MonoBehaviour
     public GameObject[] weaponsSlots;
     public GameObject[] weaponsSlotsWave;
     public List<GameObject> weaponsStored;
+
+    public GameObject[] modulesEquipped;
+    public GameObject[] modulesSlots;
+    public List<GameObject> modulesStored;
 
 
     [Header("Outside Objects")]
@@ -215,24 +221,26 @@ public class GameManagement : MonoBehaviour
     }
     public void EquipWeaponFirst(GameObject obInQ)
     {
-        selectedStorageWeapon = obInQ;
+        selectedStorageObject = obInQ;
+        selectedStorageObjectType = "weapon";
     }
 
+    // weapon config
     public void EquipWeaponSecond(int slot)
     {
-        if (selectedStorageWeapon != null)
+        if (selectedStorageObject != null && selectedStorageObjectType == "weapon")
         {
-            weaponsEquipped[slot] = selectedStorageWeapon;
+            weaponsEquipped[slot] = selectedStorageObject;
 
-            selectedStorageWeapon.transform.SetParent(weaponsSlots[slot].transform);
-            selectedStorageWeapon.GetComponent<Button>().enabled = false;
-            weaponsStored.Remove(selectedStorageWeapon);
-            selectedStorageWeapon.transform.position = weaponsSlots[slot].transform.position;
-            GameObject newGun = Instantiate(selectedStorageWeapon.GetComponent<DisplayGunData>().linkedPrefab);
+            selectedStorageObject.transform.SetParent(weaponsSlots[slot].transform);
+            selectedStorageObject.GetComponent<Button>().enabled = false;
+            weaponsStored.Remove(selectedStorageObject);
+            selectedStorageObject.transform.position = weaponsSlots[slot].transform.position;
+            GameObject newGun = Instantiate(selectedStorageObject.GetComponent<DisplayGunData>().linkedPrefab);
             newGun.transform.SetParent(weaponsSlotsWave[slot].transform);
             newGun.transform.position = newGun.transform.parent.transform.position;
-            selectedStorageWeapon.GetComponent<DisplayGunData>().linkedObject = newGun;
-            selectedStorageWeapon = null;
+            selectedStorageObject.GetComponent<DisplayGunData>().linkedObject = newGun;
+            selectedStorageObject = null;
 
         }
     }
@@ -248,6 +256,47 @@ public class GameManagement : MonoBehaviour
             weaponsStored.Add(obInQ);
             obInQ.GetComponent<Button>().enabled = true;
             weaponsEquipped[slot] = null;
+        }
+    }
+
+    // module config
+    public void EquipModuleFirst(GameObject obInQ)
+    {
+        selectedStorageObject = obInQ;
+        selectedStorageObjectType = "module";
+    }
+
+    public void EquipModuleSecond(int slot)
+    {
+        if (selectedStorageObject != null && selectedStorageObjectType == "module")
+        {
+            modulesEquipped[slot] = selectedStorageObject;
+
+            selectedStorageObject.transform.SetParent(modulesSlots[slot].transform);
+            selectedStorageObject.GetComponent<Button>().enabled = false;
+            modulesStored.Remove(selectedStorageObject);
+            selectedStorageObject.transform.position = modulesSlots[slot].transform.position;
+            // shouldn't need this, but you never know
+            /*GameObject newModule = Instantiate(selectedStorageObject.GetComponent<DisplayModuleData>().linkedPrefab);
+            newModule.transform.SetParent(modulesSlotsWave[slot].transform);
+            newModule.transform.position = newModule.transform.parent.transform.position;
+            selectedStorageObject.GetComponent<DisplayModuleData>().linkedObject = newModule;*/
+            selectedStorageObject = null;
+
+        }
+    }
+    public void UnequipModule(int slot)
+    {
+        
+        if (modulesEquipped[slot])
+        {
+            
+            GameObject obInQ = modulesEquipped[slot];
+            //Destroy(obInQ.GetComponent<DisplayModuleData>().linkedObject);
+            obInQ.transform.SetParent(moduleStorage.transform);
+            modulesStored.Add(obInQ);
+            obInQ.GetComponent<Button>().enabled = true;
+            modulesEquipped[slot] = null;
         }
     }
 }

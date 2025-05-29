@@ -14,7 +14,7 @@ public class GunBrain : MonoBehaviour
     public GameObject ammo;
     private Vector3 targetPos;
 
-    public bool canChangeTarget;
+    public bool canChangeTarget = true;
     public float range;
     public bool canFire;
     public float fireRate;
@@ -29,7 +29,6 @@ public class GunBrain : MonoBehaviour
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [System.Obsolete]
     void Start()
     {
         gameManager = FindObjectsByType<GameManagement>(FindObjectsSortMode.None)[0];
