@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEditor.ShaderGraph.Internal;
 
 public class GameManagement : MonoBehaviour
 {
@@ -33,9 +35,13 @@ public class GameManagement : MonoBehaviour
     [Header("Summary Management")]
 
     [Header("Player Management")]
-    public float playerHp;
-    public float silica;
-    public float copper;
+    public float playerHp; // health
+    public float playerMaxHp; // max health
+    public float playerArmor; // any damage taken is divided by the armor value [THIS SHOULD NEVER BE ZERO]
+    public float playerHeal; // how much the player heals every second [NOT SURE IF IM GOING TO ALLOW THE PLAYER TO MAKE THIS LESS THEN ZERO]
+    private float healTime;
+    public float silica; // currency
+    public float copper; // currency
 
     public GameObject[] weaponsEquipped;
     public GameObject[] weaponsSlots;
@@ -86,6 +92,17 @@ public class GameManagement : MonoBehaviour
             {
                 SceneManager.LoadScene("Main Menu");
             }
+
+            if (Time.time > healTime)
+            {
+                healTime = Time.time + 1f;
+                playerHp += playerHeal;
+                if (playerHp > playerMaxHp)
+                {
+                    playerHp = playerMaxHp;
+                } 
+            }
+
             if (enemies.transform.childCount == 0)
             {
                 StartSummary();
@@ -125,7 +142,7 @@ public class GameManagement : MonoBehaviour
         downtimeCanvas.SetActive(false);
         summaryCanvas.SetActive(false);
 
-        playerHpMeter.max = playerHp;
+        playerHpMeter.max = playerMaxHp;
         player.SetActive(true);
         walls.SetActive(true);
         enemies.SetActive(true);
@@ -159,7 +176,7 @@ public class GameManagement : MonoBehaviour
         machinesTab.SetActive(false);
         missionTab.SetActive(false);
     }
-    
+
     public void NewEnemy(GameObject enemyObject)
     {
         GameObject newEnemy = Instantiate(enemyObject);
@@ -281,22 +298,54 @@ public class GameManagement : MonoBehaviour
             newModule.transform.SetParent(modulesSlotsWave[slot].transform);
             newModule.transform.position = newModule.transform.parent.transform.position;
             selectedStorageObject.GetComponent<DisplayModuleData>().linkedObject = newModule;*/
+            ApplyModule(selectedStorageObject.GetComponent<ModuleData>());
             selectedStorageObject = null;
 
         }
     }
     public void UnequipModule(int slot)
     {
-        
+
         if (modulesEquipped[slot])
         {
-            
+
             GameObject obInQ = modulesEquipped[slot];
             //Destroy(obInQ.GetComponent<DisplayModuleData>().linkedObject);
             obInQ.transform.SetParent(moduleStorage.transform);
             modulesStored.Add(obInQ);
             obInQ.GetComponent<Button>().enabled = true;
             modulesEquipped[slot] = null;
+
+            UnapplyModule(obInQ.GetComponent<ModuleData>());
         }
+    }
+
+    public void ApplyModule(ModuleData modInQ)
+    {
+        playerMaxHp += modInQ.hpChange;
+        playerHp += modInQ.hpChange;
+
+        playerArmor += modInQ.armorChange;
+        if (playerArmor <= 0)
+        {
+            // divide by 0 protection
+            playerArmor = 0.001f;
+        }
+
+        playerHeal += modInQ.healChange;
+    }
+    public void UnapplyModule(ModuleData modInQ)
+    {
+        playerMaxHp -= modInQ.hpChange;
+        playerHp -= modInQ.hpChange;
+
+        playerArmor -= modInQ.armorChange;
+        if (playerArmor <= 0)
+        {
+            // divide by 0 protection
+            playerArmor = 0.001f;
+        }
+
+        playerHeal -= modInQ.healChange;
     }
 }
