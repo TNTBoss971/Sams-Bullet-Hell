@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class MachineLogic : MonoBehaviour
 {
+    public float silicaPrice;
+    public float copperPrice;
+
     public GameObject[] objectPool;
     public float[] objectOdds;
     public GameObject dispensedObject;
@@ -24,23 +27,34 @@ public class MachineLogic : MonoBehaviour
 
     public void Dispense()
     {
-        result = Random.Range(0.001f, 100);
-        float currentOdds = objectOdds[0];
-        for (int i = 0; i < objectPool.Length; i++)
+        if (silicaPrice <= gameManager.silica && copperPrice <= gameManager.copper)
         {
-            if (currentOdds >= result)
+            gameManager.silica -= silicaPrice;
+            gameManager.copper -= copperPrice;
+
+            result = Random.Range(0.001f, 100);
+            float currentOdds = objectOdds[0];
+            for (int i = 0; i < objectPool.Length; i++)
             {
-                dispensedObject = objectPool[i];
-                GameObject newObject = Instantiate(dispensedObject);
-                newObject.transform.SetParent(storage.transform);
-                if (storageType == "weapon")
+                if (currentOdds >= result)
                 {
-                    gameManager.weaponsStored.Add( newObject);
+                    dispensedObject = objectPool[i];
+                    GameObject newObject = Instantiate(dispensedObject);
+                    newObject.transform.SetParent(storage.transform);
+                    if (storageType == "weapon")
+                    {
+                        gameManager.weaponsStored.Add(newObject);
+                    }
+                    if (storageType == "upgrade")
+                    {
+                        gameManager.modulesStored.Add(newObject);
+                    }
+                    return;
                 }
-                return;
-            } else
-            {
-                currentOdds += objectOdds[i];
+                else
+                {
+                    currentOdds += objectOdds[i];
+                }
             }
         }
     }
