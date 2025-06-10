@@ -1,16 +1,15 @@
-using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
+using UnityEngine;
 
-public class ResourceDisplay : MonoBehaviour
+public class PriceDisplay : MonoBehaviour
 {
     public string resource;
-    private GameManagement gameManager;
-    private TMP_Text textMesh; 
+    private MachineLogic machine;
+    private TMP_Text textMesh;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gameManager = FindObjectsByType<GameManagement>(FindObjectsSortMode.None)[0];
+        machine = transform.parent.transform.parent.GetComponent<MachineLogic>();
         textMesh = gameObject.GetComponent<TMP_Text>();
     }
 
@@ -20,18 +19,19 @@ public class ResourceDisplay : MonoBehaviour
         string StrInQ;
         if (resource == "silica")
         {
-            StrInQ = gameManager.silica.ToString();
+            StrInQ = machine.silicaPrice.ToString();
             if (StrInQ.Length > 9)
             {
                 textMesh.text = StrInQ.Substring(0, 9);
-            } else
+            }
+            else
             {
                 textMesh.text = StrInQ;
             }
         }
         if (resource == "copper")
         {
-            StrInQ = gameManager.copper.ToString();
+            StrInQ = machine.copperPrice.ToString();
             if (StrInQ.Length > 4)
             {
                 textMesh.text = StrInQ.Substring(0, 4);

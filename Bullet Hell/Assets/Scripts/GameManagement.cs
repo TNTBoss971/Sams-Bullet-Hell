@@ -29,6 +29,7 @@ public class GameManagement : MonoBehaviour
     public GameObject missionTab;
     public GameObject weaponStorage;
     public GameObject moduleStorage;
+    public GameObject commitedModuleStorage;
     public GameObject selectedStorageObject;
     public string selectedStorageObjectType;
 
@@ -51,6 +52,7 @@ public class GameManagement : MonoBehaviour
     public GameObject[] modulesEquipped;
     public GameObject[] modulesSlots;
     public List<GameObject> modulesStored;
+    public List<GameObject> modulesCommited;
 
 
     [Header("Outside Objects")]
@@ -138,6 +140,7 @@ public class GameManagement : MonoBehaviour
     {
         gameState = "wave";
         wave++;
+        difficulty *= 1.5f;
         waveCanvas.SetActive(true);
         downtimeCanvas.SetActive(false);
         summaryCanvas.SetActive(false);
@@ -148,13 +151,33 @@ public class GameManagement : MonoBehaviour
         enemies.SetActive(true);
 
         //spawn enemies
-        enemyPool = waveQueue[wave - 1].enemyPool;
-        int[] enemyCount = waveQueue[wave - 1].enemyCount;
-        for (int i = 0; i < enemyPool.Length; i++)
+        WaveData currentWave = waveQueue[0];
+        if (wave > waveQueue.Length - 1)
         {
-            for (int j = 0; j < enemyCount[i]; j++)
+
+            currentWave = waveQueue[0];
+            enemyPool = currentWave.enemyPool;
+
+            for (int i = 0; i < enemyPool.Length; i++)
             {
-                NewEnemy(enemyPool[i]);
+                for (int j = 0; j < Random.Range(0, difficulty); j++)
+                {
+                    NewEnemy(enemyPool[i]);
+                }
+            }
+        }
+        else
+        {
+            currentWave = waveQueue[wave];
+            enemyPool = currentWave.enemyPool;
+            enemyCount = currentWave.enemyCount;
+
+            for (int i = 0; i < enemyPool.Length; i++)
+            {
+                for (int j = 0; j < enemyCount[i]; j++)
+                {
+                    NewEnemy(enemyPool[i]);
+                }
             }
         }
     }
@@ -298,7 +321,8 @@ public class GameManagement : MonoBehaviour
             newModule.transform.SetParent(modulesSlotsWave[slot].transform);
             newModule.transform.position = newModule.transform.parent.transform.position;
             selectedStorageObject.GetComponent<DisplayModuleData>().linkedObject = newModule;*/
-            ApplyModule(selectedStorageObject.GetComponent<ModuleData>());
+            
+            //(selectedStorageObject.GetComponent<ModuleData>());
             selectedStorageObject = null;
 
         }
@@ -316,9 +340,23 @@ public class GameManagement : MonoBehaviour
             obInQ.GetComponent<Button>().enabled = true;
             modulesEquipped[slot] = null;
 
-            UnapplyModule(obInQ.GetComponent<ModuleData>());
+            //UnapplyModule(obInQ.GetComponent<ModuleData>());
         }
     }
+
+    public void CommitModule(int slot)
+    {
+        if (modulesEquipped[slot])
+        {
+            GameObject obInQ = modulesEquipped[slot];
+
+            obInQ.transform.SetParent(commitedModuleStorage.transform);
+            modulesCommited.Add(modulesEquipped[slot]);
+            modulesEquipped[slot] = null;
+            ApplyModule(obInQ.GetComponent<ModuleData>());
+        }
+    }
+
 
     public void ApplyModule(ModuleData modInQ)
     {

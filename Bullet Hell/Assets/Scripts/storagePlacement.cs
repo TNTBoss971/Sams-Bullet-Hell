@@ -7,6 +7,9 @@ public class storagePlacement : MonoBehaviour
     public List<GameObject> storedObjs;
     public bool reversed;
     public string storedKind;
+    public float xOffset;
+    public float yOffset;
+    public float numOfCol;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,22 +27,27 @@ public class storagePlacement : MonoBehaviour
         {
             storedObjs = gameManager.modulesStored;
         }
+        if (storedKind == "commitedModules")
+        {
+            storedObjs = gameManager.modulesCommited;
+        }
 
         float row = 0;
         float col = 0;
+
 
         for (int i = 0; i < storedObjs.Count; i++)
         {
             if (reversed)
             {
-                storedObjs[i].GetComponent<RectTransform>().localPosition = new Vector3(col * -100, row * -100);
+                storedObjs[i].GetComponent<RectTransform>().localPosition = new Vector3(col * -100 + xOffset, row * -100 + yOffset);
             }
             else
             {
-                storedObjs[i].GetComponent<RectTransform>().localPosition = new Vector3(col * 100, row * -100);
+                storedObjs[i].GetComponent<RectTransform>().localPosition = new Vector3(col * 100 + xOffset, row * -100 + yOffset);
             }
             col++;
-            if (col == 5)
+            if (col == numOfCol)
             {
                 col = 0;
                 row++;
