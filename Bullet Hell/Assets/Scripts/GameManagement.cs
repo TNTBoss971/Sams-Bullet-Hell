@@ -64,6 +64,7 @@ public class GameManagement : MonoBehaviour
     public GameObject walls;
     public GameObject enemies;
     public MeterLogic playerHpMeter;
+    public GameObject bullets;
     //SUMMARY
     public GameObject summaryCanvas;
 

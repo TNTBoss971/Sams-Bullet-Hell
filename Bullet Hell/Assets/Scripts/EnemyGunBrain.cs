@@ -43,8 +43,8 @@ public class EnemyGunBrain : MonoBehaviour
 
     void Fire() {
         GameObject bullet = Instantiate(ammo);
-        bullet.transform.position = this.transform.position;
-        bullet.transform.rotation = this.transform.rotation;
+        bullet.transform.SetPositionAndRotation(this.transform.position, this.transform.rotation);
+        bullet.transform.SetParent(gameManager.bullets.transform, true);
         bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(targetPos.x, targetPos.y).normalized * bullet.GetComponent<ProjectileStats>().Speed);
     }
 

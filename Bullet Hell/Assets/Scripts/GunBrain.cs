@@ -62,6 +62,7 @@ public class GunBrain : MonoBehaviour
         if (target != null) {
             GameObject bullet = Instantiate(ammo);
             bullet.transform.SetPositionAndRotation(this.transform.position, this.transform.rotation);
+            bullet.transform.SetParent(gameManager.bullets.transform, true);
             if (!isLaser)
             {
                 bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(targetPos.x, targetPos.y).normalized * bullet.GetComponent<ProjectileStats>().Speed);
