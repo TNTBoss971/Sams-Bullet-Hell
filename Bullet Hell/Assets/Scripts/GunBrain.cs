@@ -54,17 +54,28 @@ public class GunBrain : MonoBehaviour
                 }
                 Invoke(nameof(AllowForTargeting), shots / 5f);
             }
+            
         }
 
     }
     void Fire()
     {
-        if (target != null) {
+        
+        if (target != null)
+        {
+            
             GameObject bullet = Instantiate(ammo);
-            bullet.transform.SetPositionAndRotation(this.transform.position, this.transform.rotation);
-            bullet.transform.SetParent(gameManager.bullets.transform, true);
-            if (!isLaser)
+            if (isLaser)
             {
+                bullet.transform.position = this.transform.position;
+                bullet.transform.SetParent(gameManager.bullets.transform, true);
+                bullet.GetComponent<LaserStats>().startingPosition = transform.position;
+                bullet.GetComponent<LaserStats>().endingPosition = target.position;
+            }
+            else
+            {
+                bullet.transform.SetPositionAndRotation(this.transform.position, this.transform.rotation);
+                bullet.transform.SetParent(gameManager.bullets.transform, true);
                 bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(targetPos.x, targetPos.y).normalized * bullet.GetComponent<ProjectileStats>().Speed);
             }
         }

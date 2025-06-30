@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedObject: {fileID: 0}
-  linkedPrefab: {fileID: 3624449620766332464, guid: 3732952ee93ccd0419ae958d55d1aeff, type: 3}
+  linkedPrefab: {fileID: 3624449620766332464, guid: 4a6b23c338a395643999a868a5dc4858, type: 3}
   identifier: 0
 --- !u!222 &4292337439566817381
 CanvasRenderer:

@@ -47,8 +47,12 @@ public class LaserStats : MonoBehaviour
         lineRenderer.SetPosition(0, startingPosition);
         lineRenderer.SetPosition(1, endingPosition);
         edgeCollider.SetPoints(positionList);
+        Invoke(nameof(selfDestroy), 0.5f);
     }
-
+    public void selfDestroy()
+    {
+        Destroy(gameObject);
+    }
     // Update is called once per frame
     void Update()
     {

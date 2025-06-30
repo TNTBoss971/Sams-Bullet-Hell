@@ -137,7 +137,7 @@ MonoBehaviour:
   speedRot: 10
   targetAngle: 0
   currentAngle: 0
-  ammo: {fileID: 2264622351269077408, guid: f84d7c357caa78940b5abda531339675, type: 3}
+  ammo: {fileID: 3754147350011109556, guid: 9ea14320c5acb0249bc35e0066eda3fa, type: 3}
   canChangeTarget: 1
   range: 10
   canFire: 0
