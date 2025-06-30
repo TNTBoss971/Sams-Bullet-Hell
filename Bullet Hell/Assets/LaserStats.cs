@@ -1,9 +1,12 @@
 using UnityEngine;
+using System.Collections.Generic;
+
 
 public class LaserStats : MonoBehaviour
 {
     public Vector3 startingPosition;
     public Vector3 endingPosition;
+    private List<Vector2> positionList;
     public Color startingColor;
     public Color endingColor;
 
@@ -12,12 +15,19 @@ public class LaserStats : MonoBehaviour
     public bool ArmorPierce;
 
     private LineRenderer lineRenderer;
-    private MeshCollider meshCollider;
+    private EdgeCollider2D edgeCollider;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        positionList = new List<Vector2>
+        {
+            // Add Postions to the list
+            startingPosition,
+            endingPosition
+        };
+
         lineRenderer = gameObject.GetComponent<LineRenderer>();
-        meshCollider = gameObject.AddComponent<MeshCollider>();
+        edgeCollider = gameObject.GetComponent<EdgeCollider2D>();
 
         // Set the material
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
@@ -27,8 +37,8 @@ public class LaserStats : MonoBehaviour
         lineRenderer.endColor = endingColor;
 
         // Set the width
-        lineRenderer.startWidth = 0.2f;
-        lineRenderer.endWidth = 0.2f;
+        lineRenderer.startWidth = 0.05f;
+        lineRenderer.endWidth = 0.05f;
 
         // Set the number of vertices
         lineRenderer.positionCount = 2;
@@ -36,17 +46,14 @@ public class LaserStats : MonoBehaviour
         // Set the positions of the vertices
         lineRenderer.SetPosition(0, startingPosition);
         lineRenderer.SetPosition(1, endingPosition);
-
-        Mesh mesh = new();
-        lineRenderer.BakeMesh(mesh, Camera.main, true);
-        meshCollider.sharedMesh = mesh;
-        meshCollider.convex = true;
-        meshCollider.isTrigger = true;
+        edgeCollider.SetPoints(positionList);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        lineRenderer.SetPosition(0, startingPosition);
+        lineRenderer.SetPosition(1, endingPosition);
+        edgeCollider.SetPoints(positionList);
     }
 }
