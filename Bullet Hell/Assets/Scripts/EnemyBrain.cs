@@ -132,10 +132,11 @@ public class EnemyBrain : MonoBehaviour
             else if (collision.CompareTag("PlayerLaser"))
             {
                 transform.position = new Vector3(
-                    transform.position.x + (collision.GetComponent<Rigidbody2D>().linearVelocity.normalized * collision.GetComponent<LaserStats>().Knockback).x,
-                    transform.position.y + (collision.GetComponent<Rigidbody2D>().linearVelocity.normalized * collision.GetComponent<LaserStats>().Knockback).y,
+                    transform.position.x + (gameObject.GetComponent<Rigidbody2D>().linearVelocity.normalized * collision.GetComponent<LaserStats>().Knockback * -1).x,
+                    transform.position.y + (gameObject.GetComponent<Rigidbody2D>().linearVelocity.normalized * collision.GetComponent<LaserStats>().Knockback * -1).y,
                     transform.position.x);
                 hp -= collision.GetComponent<LaserStats>().Damage;
+                print(this.name + (hp));
             }
             //kill the enemy
             if (hp <= 0)

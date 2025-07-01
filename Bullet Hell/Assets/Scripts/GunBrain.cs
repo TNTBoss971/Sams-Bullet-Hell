@@ -5,7 +5,9 @@ public class GunBrain : MonoBehaviour
     [Header("Outside Objects")]
     private GameManagement gameManager;
     public Transform target;
+    public Vector3 lastTargetPosition;
     private GameObject player;
+    private GameObject boundBullet;
 
     [Header("Personal Control Variables")]
     public float speedRot;
@@ -54,7 +56,28 @@ public class GunBrain : MonoBehaviour
                 }
                 Invoke(nameof(AllowForTargeting), shots / 5f);
             }
-            
+
+        }
+        if (boundBullet != null)
+        {
+            if (isLaser)
+            {
+                if (target != null)
+                {
+                    lastTargetPosition = target.position;
+
+                }
+                canChangeTarget = false;
+                boundBullet.GetComponent<LaserStats>().startingPosition = transform.position;
+                boundBullet.GetComponent<LaserStats>().endingPosition = lastTargetPosition; //(transform.position - lastTargetPosition).magnitude * transform.right;
+            }
+        }
+        else
+        {
+            if (isLaser)
+            {
+                canChangeTarget = true;
+            }
         }
 
     }
@@ -67,10 +90,11 @@ public class GunBrain : MonoBehaviour
             GameObject bullet = Instantiate(ammo);
             if (isLaser)
             {
-                bullet.transform.position = this.transform.position;
+                //bullet.transform.position = this.transform.position;
                 bullet.transform.SetParent(gameManager.bullets.transform, true);
                 bullet.GetComponent<LaserStats>().startingPosition = transform.position;
-                bullet.GetComponent<LaserStats>().endingPosition = target.position;
+                bullet.GetComponent<LaserStats>().endingPosition = (transform.position - target.position).magnitude * transform.right;
+                boundBullet = bullet;
             }
             else
             {
@@ -101,7 +125,7 @@ public class GunBrain : MonoBehaviour
             targetPos = target.position;
             targetPos.z = 5.23f;
 
-            Vector3 objectPos = player.transform.position;
+            Vector3 objectPos = this.transform.position;
             targetPos.x = targetPos.x - objectPos.x;
             targetPos.y = targetPos.y - objectPos.y;
 

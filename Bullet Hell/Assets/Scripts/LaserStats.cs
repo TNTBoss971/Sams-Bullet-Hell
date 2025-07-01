@@ -13,6 +13,8 @@ public class LaserStats : MonoBehaviour
     public float Damage;
     public float Knockback;
     public bool ArmorPierce;
+    public float DamageRate;
+    public float Lifetime;
 
     private LineRenderer lineRenderer;
     private EdgeCollider2D edgeCollider;
@@ -47,15 +49,23 @@ public class LaserStats : MonoBehaviour
         lineRenderer.SetPosition(0, startingPosition);
         lineRenderer.SetPosition(1, endingPosition);
         edgeCollider.SetPoints(positionList);
-        Invoke(nameof(selfDestroy), 0.5f);
+        Invoke(nameof(SelfDestroy), Lifetime);
     }
-    public void selfDestroy()
+    public void SelfDestroy()
     {
         Destroy(gameObject);
     }
     // Update is called once per frame
     void Update()
     {
+        positionList = new List<Vector2>
+        {
+            // Add Postions to the list
+            startingPosition,
+            endingPosition
+        };
+
+
         lineRenderer.SetPosition(0, startingPosition);
         lineRenderer.SetPosition(1, endingPosition);
         edgeCollider.SetPoints(positionList);

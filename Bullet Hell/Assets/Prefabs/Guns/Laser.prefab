@@ -141,7 +141,7 @@ MonoBehaviour:
   canChangeTarget: 1
   range: 10
   canFire: 0
-  fireRate: 1
+  fireRate: 3
   shots: 0
   isMinigun: 0
   isMaxigun: 0

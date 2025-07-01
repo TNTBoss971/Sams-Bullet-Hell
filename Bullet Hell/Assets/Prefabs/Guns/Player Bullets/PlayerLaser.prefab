@@ -82,6 +82,7 @@ LineRenderer:
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
+  - {x: 1.4812746, y: 3.6962812, z: -1.3719006}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -90,7 +91,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.059829712
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -158,8 +159,10 @@ MonoBehaviour:
   startingColor: {r: 1, g: 0, b: 0, a: 1}
   endingColor: {r: 1, g: 0.41037738, b: 0.41037738, a: 1}
   Damage: 1
-  Knockback: 1
+  Knockback: 0.1
   ArmorPierce: 0
+  DamageRate: 0
+  Lifetime: 1
 --- !u!68 &6319824620401668436
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -190,7 +193,7 @@ EdgeCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

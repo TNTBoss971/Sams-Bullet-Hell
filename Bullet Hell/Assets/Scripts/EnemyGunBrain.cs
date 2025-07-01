@@ -24,6 +24,7 @@ public class EnemyGunBrain : MonoBehaviour
     void Start()
     {
 
+        gameManager = FindObjectsByType<GameManagement>(FindObjectsSortMode.None)[0];
     }
 
     // Update is called once per frame
