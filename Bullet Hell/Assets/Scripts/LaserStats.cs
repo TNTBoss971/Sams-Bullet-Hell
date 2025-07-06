@@ -21,9 +21,9 @@ public class LaserStats : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Add Postions to the list
         positionList = new List<Vector2>
         {
-            // Add Postions to the list
             startingPosition,
             endingPosition
         };
@@ -49,7 +49,7 @@ public class LaserStats : MonoBehaviour
         lineRenderer.SetPosition(0, startingPosition);
         lineRenderer.SetPosition(1, endingPosition);
         edgeCollider.SetPoints(positionList);
-        Invoke(nameof(SelfDestroy), Lifetime);
+        Invoke(nameof(SelfDestroy), Lifetime); // theres probably a better way of doing this tbh
     }
     public void SelfDestroy()
     {
@@ -58,9 +58,9 @@ public class LaserStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        positionList = new List<Vector2>
+        // Add Postions to the list
+        positionList = new List<Vector2> 
         {
-            // Add Postions to the list
             startingPosition,
             endingPosition
         };

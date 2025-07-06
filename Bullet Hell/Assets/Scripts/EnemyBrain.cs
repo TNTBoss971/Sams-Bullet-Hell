@@ -35,8 +35,11 @@ public class EnemyBrain : MonoBehaviour
     void Update()
     {
         if (Random.Range(0, 1) == 0) {
+            // Finding target
             Locating();
+            // Rotating
             Targeting();
+            // Moving
             Shove();
         }
     }
@@ -47,13 +50,13 @@ public class EnemyBrain : MonoBehaviour
         float distanceToTarget = (this.transform.position - target.transform.position).magnitude;
         if (isRanged)
         {
+            // this add force equation is great for when an enemy doesn't need to make contant with the target.
             rb.AddForce(targetPos.normalized * speedMov * distanceToTarget / 10);
         } else
         {
+            // at somepoint, I would like to make the melee enemies also use AddForce, but this works for now
             rb.linearVelocity = targetPos.normalized * speedMov;
         }
-        //rb.AddForce(targetPos.normalized * speedMov / distanceToTarget);
-        // maybe for an orbiter?
 
     }
 
@@ -63,6 +66,7 @@ public class EnemyBrain : MonoBehaviour
         Vector3 pos = this.transform.position;
         float dist = float.PositiveInfinity;
         TargetablePlayer targ = null;
+        // find closest valid target
         foreach (var obj in TargetablePlayer.Entities)
         {
             var d = (pos - obj.transform.position).sqrMagnitude;
@@ -88,38 +92,13 @@ public class EnemyBrain : MonoBehaviour
         currentAngle = currentAngle + (targetAngle) / speedRot;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("PlayerLaser"))
-        {
-
-            transform.position = new Vector3(
-                transform.position.x + (collision.gameObject.GetComponent<Rigidbody2D>().linearVelocity.normalized * collision.gameObject.GetComponent<LaserStats>().Knockback).x,
-                transform.position.y + (collision.gameObject.GetComponent<Rigidbody2D>().linearVelocity.normalized * collision.gameObject.GetComponent<LaserStats>().Knockback).y,
-                transform.position.x);
-            hp -= collision.gameObject.GetComponent<LaserStats>().Damage;
-        }
-        //kill the enemy
-        if (hp <= 0)
-        {
-            //calculate silica gain
-            gameManager.silicaSalvaged += silicaValue + Random.Range(-0.75f, 0.75f);
-
-
-            //calculate copper gain
-            gameManager.copperSalvaged += copperValue + Random.Range(-0.02f, 0.02f);
-
-
-            //Destroy(this); gives a really cool "corpse" effect, but does some wierd stuff when the enemy has a gun
-            //definatlly gonna use later. Possible solution is to find all children marked "attachment" and disable them;
-            Destroy(this.gameObject);
-            gameManager.enemiesLeft--;
-        }
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("PlayerProjectile") || collision.CompareTag("PlayerLaser")) {
+        // verify that trigger is actually something this can interact with
+        if (collision.CompareTag("PlayerProjectile") || collision.CompareTag("PlayerLaser"))
+        {
+            // projectiles and lasers work slightly different in how they apply knockback
             if (collision.CompareTag("PlayerProjectile"))
             {
                 rb.AddForce(collision.GetComponent<Rigidbody2D>().linearVelocity * 10);
@@ -131,9 +110,10 @@ public class EnemyBrain : MonoBehaviour
             }
             else if (collision.CompareTag("PlayerLaser"))
             {
+                rb.AddForce(rb.linearVelocity * 10);
                 transform.position = new Vector3(
-                    transform.position.x + (gameObject.GetComponent<Rigidbody2D>().linearVelocity.normalized * collision.GetComponent<LaserStats>().Knockback * -1).x,
-                    transform.position.y + (gameObject.GetComponent<Rigidbody2D>().linearVelocity.normalized * collision.GetComponent<LaserStats>().Knockback * -1).y,
+                    transform.position.x + (-1 * collision.GetComponent<LaserStats>().Knockback * rb.linearVelocity.normalized).x,
+                    transform.position.y + (-1 * collision.GetComponent<LaserStats>().Knockback * rb.linearVelocity.normalized).y,
                     transform.position.x);
                 hp -= collision.GetComponent<LaserStats>().Damage;
                 print(this.name + (hp));
@@ -144,7 +124,6 @@ public class EnemyBrain : MonoBehaviour
                 //calculate silica gain
                 gameManager.silicaSalvaged += silicaValue + Random.Range(-0.75f, 0.75f);
 
-
                 //calculate copper gain
                 gameManager.copperSalvaged += copperValue + Random.Range(-0.02f, 0.02f);
 
@@ -154,11 +133,12 @@ public class EnemyBrain : MonoBehaviour
                 Destroy(this.gameObject);
                 gameManager.enemiesLeft--;
             }
+            // at some point, i should probably make it so this checks for pierce, but that doesn't exist yet
             if (collision.CompareTag("PlayerProjectile"))
             {
                 Destroy(collision.gameObject);
             }
-            
+
         }
     }
 }

@@ -5,8 +5,8 @@ public class WallBrain : MonoBehaviour
     /*
     Yeah, I gave a wall a brain. 
     What are you gonna do about it? 
-    Nothin.
-    Because I just gave a wall a mother fucking brain, bitches.
+    Nothing.
+    Because I just gave a wall a brain.
     */
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

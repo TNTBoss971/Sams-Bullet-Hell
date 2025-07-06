@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -24,7 +25,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // point toward the mouse, and move towards it.
         targetPos = Input.mousePosition;
         targetPos.z = 5.23f;
 
@@ -32,10 +33,18 @@ public class PlayerController : MonoBehaviour
         targetPos.x = targetPos.x - objectPos.x;
         targetPos.y = targetPos.y - objectPos.y;
 
-        targetAngle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg - 90f - currentAngle;
+        targetAngle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg - currentAngle;
+
+        if (Mathf.Abs(targetAngle) > 180)
+        {
+            currentAngle = currentAngle * -1;
+            targetAngle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg - currentAngle;
+        }
+
         currentAngle = currentAngle + (targetAngle) / speedRot;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
-        rb.linearVelocity = new Vector2 (targetPos.x / speedMov, targetPos.y / speedMov);
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle - 90f));
+        rb.linearVelocity = new Vector2(targetPos.x / speedMov, targetPos.y / speedMov);
+        
         //rb.AddForce(new Vector2(mousePos.x / speedMov, mousePos.y / speedMov));
         //was funny, but didn't work
     }

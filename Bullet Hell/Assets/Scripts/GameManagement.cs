@@ -118,6 +118,7 @@ public class GameManagement : MonoBehaviour
     {
 
     }
+    // currently, summary just starts downtime, but in the future, it will give the player stats on how the wave went
     public void StartSummary()
     {
         gameState = "summary";
@@ -153,7 +154,7 @@ public class GameManagement : MonoBehaviour
 
         //spawn enemies
         WaveData currentWave = waveQueue[0];
-        if (wave > waveQueue.Length - 1)
+        if (wave > waveQueue.Length - 1) // infite mode
         {
 
             currentWave = waveQueue[0];
@@ -167,7 +168,7 @@ public class GameManagement : MonoBehaviour
                 }
             }
         }
-        else
+        else // scripted waves
         {
             currentWave = waveQueue[wave];
             enemyPool = currentWave.enemyPool;
@@ -205,7 +206,7 @@ public class GameManagement : MonoBehaviour
     {
         GameObject newEnemy = Instantiate(enemyObject);
         newEnemy.transform.SetParent(enemies.transform);
-        int positionInt = Random.Range(0, 4);
+        int positionInt = Random.Range(0, 4); // pick a corner for the enemy to spawn in
         if (positionInt == 0)
         {
             newEnemy.transform.position = new Vector3(9.20f, 5.30f, 0.5f);

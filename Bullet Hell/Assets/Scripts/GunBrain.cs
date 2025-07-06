@@ -81,6 +81,7 @@ public class GunBrain : MonoBehaviour
         }
 
     }
+    // gun go THONK
     void Fire()
     {
         
@@ -104,6 +105,7 @@ public class GunBrain : MonoBehaviour
             }
         }
     }
+    // find closest valid target
     void Locating() {
         Vector3 pos = this.transform.position;
         float dist = float.PositiveInfinity;
@@ -120,6 +122,7 @@ public class GunBrain : MonoBehaviour
         }
     }
 
+    // rotate and check to make sure target is in range
     void Targeting() {
         if (target != null) {
             targetPos = target.position;

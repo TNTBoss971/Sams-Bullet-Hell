@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyGunBrain : MonoBehaviour
 {
     [Header("Outside Objects")]
-    public GameManagement gameManager;
+    private GameManagement gameManager;
     public Transform target;
     public GameObject player;
 
@@ -23,7 +23,6 @@ public class EnemyGunBrain : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
         gameManager = FindObjectsByType<GameManagement>(FindObjectsSortMode.None)[0];
     }
 
@@ -35,13 +34,13 @@ public class EnemyGunBrain : MonoBehaviour
         if (Time.time > fireTime && canFire)
         {
             fireTime = Time.time + fireRate;
-            // execute block of code here
+            
             Fire();
         }
 
     }
 
-
+    // gun go THONK
     void Fire() {
         GameObject bullet = Instantiate(ammo);
         bullet.transform.SetPositionAndRotation(this.transform.position, this.transform.rotation);
@@ -49,6 +48,7 @@ public class EnemyGunBrain : MonoBehaviour
         bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(targetPos.x, targetPos.y).normalized * bullet.GetComponent<ProjectileStats>().Speed);
     }
 
+    // find closest valid target
     void Locating()
     {
         Vector3 pos = this.transform.position;
@@ -65,7 +65,7 @@ public class EnemyGunBrain : MonoBehaviour
         }
         target = targ.transform;
     }
-
+    // rotate toward target, and check to make sure target is in range
     void Targeting()
     {
         targetPos = target.position;
