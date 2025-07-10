@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor.ShaderGraph.Internal;
+using UnityEngine.AI;
 
 public class GameManagement : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class GameManagement : MonoBehaviour
     public int[] enemyCount;
     public float silicaSalvaged;
     public float copperSalvaged;
+    public bool bossActive;
+    public GameObject boss;
 
     [Header("Downtime Management")]
     public string tab = "player";
@@ -103,11 +106,16 @@ public class GameManagement : MonoBehaviour
                 if (playerHp > playerMaxHp)
                 {
                     playerHp = playerMaxHp;
-                } 
+                }
             }
 
-            if (enemies.transform.childCount == 0)
+            if (enemies.transform.childCount == 0 && !bossActive)
             {
+                StartSummary();
+            }
+            if (bossActive && boss.GetComponent<BossData>().hp <= 0)
+            {
+                Destroy(boss);
                 StartSummary();
             }
         }
@@ -171,14 +179,23 @@ public class GameManagement : MonoBehaviour
         else // scripted waves
         {
             currentWave = waveQueue[wave];
-            enemyPool = currentWave.enemyPool;
-            enemyCount = currentWave.enemyCount;
-
-            for (int i = 0; i < enemyPool.Length; i++)
+            if (currentWave.isBoss)
             {
-                for (int j = 0; j < enemyCount[i]; j++)
+                boss = Instantiate(currentWave.boss);
+                boss.GetComponent<BossData>().player = player;
+                
+            }
+            else
+            {
+                enemyPool = currentWave.enemyPool;
+                enemyCount = currentWave.enemyCount;
+
+                for (int i = 0; i < enemyPool.Length; i++)
                 {
-                    NewEnemy(enemyPool[i]);
+                    for (int j = 0; j < enemyCount[i]; j++)
+                    {
+                        NewEnemy(enemyPool[i]);
+                    }
                 }
             }
         }

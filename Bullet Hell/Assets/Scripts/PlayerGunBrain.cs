@@ -36,6 +36,6 @@ public class PlayerGunBrain : MonoBehaviour
         GameObject bullet = Instantiate(ammo);
         bullet.transform.position = this.transform.position;
         bullet.transform.rotation = this.transform.rotation;
-        bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(targetPos.x, targetPos.y).normalized * bullet.GetComponent<ProjectileStats>().Speed);
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(targetPos.x, targetPos.y).normalized * bullet.GetComponent<ProjectileStats>().Speed;
     }
 }

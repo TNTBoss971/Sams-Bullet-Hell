@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class WaveData : MonoBehaviour
+public class BossLimbLogic : MonoBehaviour
 {
-    public GameObject[] enemyPool;
-    public int[] enemyCount;
-
-    public bool isBoss;
-    public GameObject boss;
+    public float hp;
+    public float maxHp;
+    public GameObject brainObject;
+    public bool destroyed;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame

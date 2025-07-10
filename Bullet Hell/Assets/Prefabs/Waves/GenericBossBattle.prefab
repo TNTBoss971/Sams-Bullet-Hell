@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5647598265102225945}
   - component: {fileID: 8584964180993731607}
   m_Layer: 0
-  m_Name: EndlessMode
+  m_Name: GenericBossBattle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,9 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f4e8c745547544aac4e14c280c9de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPool:
-  - {fileID: 2418060705336042245, guid: 5335dbe2783d2ee4f8fd7532d1d06a99, type: 3}
-  - {fileID: 7150444316228369068, guid: f5608b535da8ce743aa707658dc58faf, type: 3}
-  enemyCount: 0000000000000000
-  isBoss: 0
-  boss: {fileID: 0}
+  enemyPool: []
+  enemyCount: 0500000001000000
+  isBoss: 1
+  boss: {fileID: 476409309927602086, guid: 012360e65fda62d4382d843d947a8594, type: 3}

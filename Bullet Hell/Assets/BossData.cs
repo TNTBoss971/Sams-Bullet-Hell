@@ -1,12 +1,10 @@
 using UnityEngine;
 
-public class WaveData : MonoBehaviour
+public class BossData : MonoBehaviour
 {
-    public GameObject[] enemyPool;
-    public int[] enemyCount;
-
-    public bool isBoss;
-    public GameObject boss;
+    public GameObject player;
+    public float hp;
+    public float maxHp;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

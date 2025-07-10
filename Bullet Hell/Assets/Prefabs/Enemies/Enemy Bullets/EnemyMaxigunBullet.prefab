@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1687000568618509954}
   - component: {fileID: -1664465279486397898}
   m_Layer: 6
-  m_Name: EnemyProjectile
+  m_Name: EnemyMaxigunBullet
   m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.9716981, g: 0.44911152, b: 0, a: 1}
+  m_Color: {r: 0.972549, g: 0.26648468, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 5
-  Damage: 1
+  Damage: 10
   Knockback: 0
   ArmorPierce: 0
 --- !u!114 &-1664465279486397898

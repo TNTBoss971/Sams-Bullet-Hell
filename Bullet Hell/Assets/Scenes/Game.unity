@@ -1834,11 +1834,13 @@ MonoBehaviour:
   - {fileID: 2418060705336042245, guid: 5335dbe2783d2ee4f8fd7532d1d06a99, type: 3}
   waveQueue:
   - {fileID: 8584964180993731607, guid: c13bc94360434034ca75b8fd45bc23bf, type: 3}
-  - {fileID: 8584964180993731607, guid: a68915986b47dc0498cd7d8633146c63, type: 3}
+  - {fileID: 8584964180993731607, guid: ded2d9a6ba4028049be181ccf1c33124, type: 3}
   - {fileID: 8584964180993731607, guid: 3fa2e74da899bc242b070c55d25e4ffa, type: 3}
   enemyCount: 
   silicaSalvaged: 0
   copperSalvaged: 0
+  bossActive: 0
+  boss: {fileID: 0}
   tab: player
   playerTab: {fileID: 39137644}
   machinesTab: {fileID: 1852584990}
