@@ -116,6 +116,7 @@ public class GameManagement : MonoBehaviour
             if (bossActive && boss.GetComponent<BossData>().hp <= 0)
             {
                 Destroy(boss);
+                bossActive = false;
                 StartSummary();
             }
         }
@@ -183,7 +184,7 @@ public class GameManagement : MonoBehaviour
             {
                 boss = Instantiate(currentWave.boss);
                 boss.GetComponent<BossData>().player = player;
-                
+                bossActive = true;
             }
             else
             {

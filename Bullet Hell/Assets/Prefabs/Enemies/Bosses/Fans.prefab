@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4144921819260362690}
-  - component: {fileID: 8098641320338472882}
   - component: {fileID: 1376710688327822674}
+  - component: {fileID: -8004675337300659989}
   m_Layer: 0
-  m_Name: GenericBoss
+  m_Name: Fans
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,37 +36,6 @@ Transform:
   - {fileID: 1153144718527251950}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8098641320338472882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476409309927602086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2518e7736b160046a203ebac678d3d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainBody0: {fileID: 4810323651340934602}
-  armLeft0: {fileID: 1735535486201315966}
-  armRight0: {fileID: 9056580850058903007}
-  weaponSystems:
-  - leftMaxigun
-  - leftMiniguns
-  - rightMaxigun
-  - rightMiniguns
-  - centerMaxiguns
-  mainBodyWS:
-  - centerMaxiguns
-  armLeftWS:
-  - leftMaxigun
-  - leftMiniguns
-  armRightWS:
-  - rightMaxigun
-  - rightMiniguns
-  cooldownTime: 0
-  cooldownLength: 1
 --- !u!114 &1376710688327822674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,6 +51,18 @@ MonoBehaviour:
   player: {fileID: 0}
   hp: 10
   maxHp: 10
+--- !u!114 &-8004675337300659989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476409309927602086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9424be0025d25346801055904497a52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1735535486201315966
 GameObject:
   m_ObjectHideFlags: 0

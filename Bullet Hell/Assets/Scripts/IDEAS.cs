@@ -10,8 +10,11 @@ public class IDEAS : MonoBehaviour
     // make a maxigun. Like a minigun, but max.
     // laser minigun?
 
-
-
+    /* player is a breadboard
+    need to wire weapons in order for them to be powered
+    resistors upgrade weapons but increase resistance.
+    need enough volatage for weapons to be powered.
+    */
 
 
     /*
